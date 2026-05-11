@@ -16,7 +16,7 @@ initial_state = {
     "messages": []
 }
 
-result = grapg.invoke(initial_state)
+result = graph.invoke(initial_state)
 
 print("\n")
 print(result["final_report"])
