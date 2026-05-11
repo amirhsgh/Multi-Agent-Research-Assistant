@@ -313,11 +313,11 @@ multi-agent-research-assistant/
 
 ### Phase 2 — Improvements 🚧
 
-- [ ] Async agent execution
-- [ ] Better state persistence
-- [ ] Retry and error recovery
-- [ ] Structured JSON outputs
-- [ ] Citation generation
+- [x] Async agent execution
+- [x] Better state persistence
+- [x] Retry and error recovery
+- [x] Structured JSON outputs
+- [x] Citation generation
 
 
 
