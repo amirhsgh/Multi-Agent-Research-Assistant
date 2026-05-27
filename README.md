@@ -12,12 +12,12 @@ This project is an autonomous multi-agent system that simulates how human resear
 
 The system:
 
-1. **Plans** the research by breaking complex topics into searchable subtasks
-2. **Searches** the web using advanced search APIs
-3. **Synthesizes** findings into coherent summaries
-4. **Critiques** the final report to ensure quality and completeness
+- Plans the research by breaking complex topics into searchable subtasks
+- Searches the web using advanced search APIs
+- Synthesizes findings into coherent summaries
+- Critiques the final report to ensure quality and completeness
 
-Unlike simple chatbots, this system uses a **graph-based workflow** where multiple AI agents collaborate, each with a specialized role, to produce high-quality research reports automatically.
+Unlike simple chatbots, this system uses a graph-based workflow where multiple AI agents collaborate, each with a specialized role, to produce high-quality research reports automatically.
 
 ---
 
@@ -35,7 +35,8 @@ Unlike simple chatbots, this system uses a **graph-based workflow** where multip
 ---
 
 ## 🧠 Example Workflow
-```text
+
+```
 User Topic
    ↓
 Planner Agent
@@ -47,307 +48,208 @@ Summarizer Agent
 Critic Agent
    ↓
 Final Research Report
-
 ```
 
-## 🏗️ Architecture Diagram
+---
 
-```text
+## 🏗️ Architecture
+
+```
 ┌─────────────────────────────────────────────────────────────┐
-│                     User Input / Topic                      │
+│                      User Input / Topic                     │
 └────────────────────────┬────────────────────────────────────┘
                          │
                          ▼
-                     ┌──────────────────────┐
-                     │   Planner Agent      │
-                     │  GPT-4 / Claude      │
-                     │                      │
-                     │ Breaks topic into    │
-                     │ research subtasks    │
-                     └──────────┬───────────┘
-                                │
-                                ▼
-                    ┌──────────────────────┐
-                    │   Research Plan      │
-                    │  [Q1, Q2, Q3, ...]   │
-                    └──────────┬───────────┘
-                               │
-                               ▼
-               ┌───────────────┴───────────────┐
-               │      For Each Subtask         │
-               │                               │
-               │  ┌─────────────────────┐      │
-               │  │  Search Agent       │      │
-               │  │  Tavily API         │      │
-               │  │                     │      │
-               │  │  Searches the web   │      │
-               │  │  for current query  │      │
-               │  └──────────┬──────────┘      │
-               │             │                 │
-               │             ▼                 │
-               │  ┌─────────────────────┐      │
-               │  │  Summarizer Agent   │      │
-               │  │  GPT-4 / Claude     │      │
-               │  │                     │      │
-               │  │  Synthesizes search │      │
-               │  │  results            │      │
-               │  └──────────┬──────────┘      │
-               │             │                 │
-               └─────────────┼─────────────────┘
-                             │
-                             ▼
-                ┌──────────────────────┐
-                │  Combined Summaries  │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │   Critic Agent       │
-                │   GPT-4 / Claude     │
-                │                      │
-                │ Evaluates report and │
-                │ provides feedback    │
-                └──────────┬───────────┘
-                           │
-                           ▼
-                ┌──────────────────────┐
-                │   Final Report       │
-                │   + Critique         │
-                └──────────────────────┘
-
+              ┌──────────────────────┐
+              │    Planner Agent     │
+              │   GPT-4 / Claude     │
+              │                      │
+              │  Breaks topic into   │
+              │  research subtasks   │
+              └──────────┬───────────┘
+                         │
+                         ▼
+              ┌──────────────────────┐
+              │   Research Plan      │
+              │  [Q1, Q2, Q3, ...]   │
+              └──────────┬───────────┘
+                         │
+                         ▼
+            ┌────────────┴────────────┐
+            │   For Each Subtask      │
+            │                         │
+            │  ┌────────────────────┐ │
+            │  │   Search Agent     │ │
+            │  │     Tavily API     │ │
+            │  └─────────┬──────────┘ │
+            │            │            │
+            │            ▼            │
+            │  ┌────────────────────┐ │
+            │  │ Summarizer Agent   │ │
+            │  │   GPT-4 / Claude   │ │
+            │  └─────────┬──────────┘ │
+            └────────────┼────────────┘
+                         │
+                         ▼
+              ┌──────────────────────┐
+              │  Combined Summaries  │
+              └──────────┬───────────┘
+                         │
+                         ▼
+              ┌──────────────────────┐
+              │    Critic Agent      │
+              │   GPT-4 / Claude     │
+              └──────────┬───────────┘
+                         │
+                         ▼
+              ┌──────────────────────┐
+              │    Final Report      │
+              │    + Critique        │
+              └──────────────────────┘
 ```
 
-## 🔄 State Flow Diagram
-
-```text
-START
-  │
-  ├─→ [Planner Node]
-  │       └─→ research_plan created
-  │
-  ├─→ [Search Node]
-  │       └─→ search_results[i] added
-  │
-  ├─→ [Summarize Node]
-  │       └─→ summaries[i] added
-  │
-  ├─→ [Decision: More subtasks?]
-  │       │
-  │       ├─→ YES
-  │       │     └─→ [Increment Step] ──→ back to Search Node
-  │       │
-  │       └─→ NO
-  │             └─→ [Finalize Node]
-  │                   └─→ final_report generated
-  │
-END
-
-```
+---
 
 ## 🚀 How to Run
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/multi-agent-research-assistant.git
-cd multi-agent-research-assistant
-
+git clone https://github.com/amirhsgh/Multi-Agent-Research-Assistant.git
+cd Multi-Agent-Research-Assistant
 ```
 
 ### 2. Create a Virtual Environment
 
 ```bash
 python -m venv venv
-
-Activate the virtual environment:
-```
-#### Linux / macOS
-
-```bash
+# Linux / macOS
 source venv/bin/activate
-```
-#### Windows
-
-```bash
+# Windows
 venv\Scripts\activate
 ```
-
 
 ### 3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
-
 ```
 
 ### 4. Configure Environment Variables
 
 Create a `.env` file in the project root:
 
-```env
+```
 OPENAI_API_KEY=your_openai_api_key
 TAVILY_API_KEY=your_tavily_api_key
-
 ```
 
 ### 5. Run the Application
 
-#### CLI Mode
-
 ```bash
+# CLI mode
 python main.py
-```
-#### Streamlit UI
 
-```bash
+# Streamlit UI
 streamlit run app.py
-
 ```
+
+---
 
 ## 🧪 Sample Output
 
-### Input
+**Input:** *Future of AI agents in software engineering*
 
-```text
-Future of AI agents in software engineering
+**Generated Research Plan:**
 
-```
-
-### Generated Research Plan
-
-```text
 1. Current AI coding assistants
 2. AI-driven software testing
 3. Autonomous software agents
 4. Risks and limitations
 5. Future trends
 
-```
+**Final Report (snippet):**
 
-### Final Report Snippet
+> AI agents are increasingly transforming software engineering workflows. Tools such as GitHub Copilot and autonomous coding agents are improving developer productivity through code generation, testing, and debugging. However, challenges remain regarding reliability, hallucinations, security vulnerabilities, and maintainability.
 
-```text
-AI agents are increasingly transforming software engineering workflows.
-Tools such as GitHub Copilot and autonomous coding agents are improving
-developer productivity through code generation, testing, and debugging.
-
-However, challenges remain regarding reliability, hallucinations,
-security vulnerabilities, and maintainability.
-
-Industry trends suggest future development environments will include
-collaborative AI agents capable of end-to-end software delivery.
-
-```
+---
 
 ## 🛠️ Tech Stack
 
-### Core Frameworks
+- **Core Frameworks:** LangGraph · LangChain
+- **LLM Providers:** OpenAI GPT-4 · Anthropic Claude
+- **Search & Retrieval:** Tavily Search API
+- **Backend:** Python 3.11+
+- **UI:** Streamlit
+- **Utilities:** Rich · Pydantic · python-dotenv
+- **DevOps:** Docker
 
-- LangGraph
-- LangChain
-
-### LLM Providers
-
-- OpenAI GPT-4
-- Anthropic Claude
-
-### Search & Retrieval
-
-- Tavily Search API
-
-### Backend
-
-- Python 3.11+
-
-### UI
-
-- Streamlit
-
-### Utilities
-
-- Rich
-- Pydantic
-- python-dotenv
-
-### DevOps
-
-- Docker
+---
 
 ## 📂 Project Structure
 
-```text
+```
 multi-agent-research-assistant/
-│
 ├── src/
 │   ├── agents/
 │   │   ├── planner.py
 │   │   ├── searcher.py
 │   │   ├── summarizer.py
 │   │   └── critic.py
-│   │
 │   ├── utils/
 │   │   └── logger.py
-│   │
 │   ├── state.py
 │   └── workflow.py
-│
 ├── app.py
 ├── main.py
 ├── requirements.txt
 ├── Dockerfile
 ├── .env.example
 └── README.md
-
 ```
+
+---
 
 ## 🗺️ Roadmap
 
-### Phase 1 — Core System ✅
+**Phase 1 — Core System ✅**
+- Multi-agent workflow
+- Web search integration
+- Report generation
+- Streamlit UI
 
-- [x] Multi-agent workflow
-- [x] Web search integration
-- [x] Report generation
-- [x] Streamlit UI
+**Phase 2 — Improvements 🚧**
+- Async agent execution
+- Better state persistence
+- Retry and error recovery
+- Structured JSON outputs
+- Citation generation
 
+**Phase 3 — Advanced Features 🔮**
+- Vector database memory
+- Human-in-the-loop review
+- Multi-LLM routing
+- PDF export
+- Real-time streaming responses
 
-
-### Phase 2 — Improvements 🚧
-
-- [x] Async agent execution
-- [x] Better state persistence
-- [x] Retry and error recovery
-- [x] Structured JSON outputs
-- [x] Citation generation
-
-
-
-### Phase 3 — Advanced Features 🔮
-
-- [ ] Vector database memory
-- [ ] Human-in-the-loop review
-- [ ] Multi-LLM routing
-- [ ] PDF export
-- [ ] Autonomous agent collaboration
-- [ ] Real-time streaming responses
-
-
+---
 
 ## 🐳 Docker Support
 
-Build the Docker image:
-
 ```bash
 docker build -t research-assistant .
-```
-Run the container:
-
-```bash
 docker run --env-file .env research-assistant
 ```
 
+---
+
 ## 📜 License
 
-This project is licensed under the MIT License.
+MIT License.
 
-```text
-MIT License
+---
+
+## 👤 Author
+
+**Amirhossein Ghavi** — AI Engineer
+📧 amiqavi2601@gmail.com · 💼 [LinkedIn](https://www.linkedin.com/in/amirhossein-ghavi/) · 🌍 Open to remote roles (EU)
